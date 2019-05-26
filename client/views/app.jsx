@@ -1,3 +1,19 @@
-import React from 'react';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import Routes from '../config/router'
 
-export default () => <div>热更新1</div>
+export default class App extends React.Component {
+  componentWillMount() {
+
+  }
+
+  render() {
+    return [
+      <div>
+        <Link to="/">首页</Link>
+        <Link to="/detail">详情页</Link>
+      </div>,
+      <Routes />,
+    ]
+  }
+}
