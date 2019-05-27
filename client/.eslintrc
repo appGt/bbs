@@ -11,9 +11,10 @@
   },
   "extends": "airbnb",
   "rules": {
-    "semi": [0],
-    "react/jsx-filename-extension": [0],
-    "arrow-body-style": [0],
-    "import/no-unresolved": 0
+    "semi": 0,
+    "react/jsx-filename-extension": 0,
+    "arrow-body-style": 0,
+    "import/no-unresolved": 0,
+    "react/require-default-props": 0
   }
 }
