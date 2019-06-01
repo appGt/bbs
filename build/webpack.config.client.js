@@ -39,6 +39,9 @@ if (isDev) {
       errors: true
     },
     publicPath: '/public/',
+    proxy: {
+      '/api': 'http://localhost:3333'
+    },
     historyApiFallback: {
       index: '/public/index.html'
     }
