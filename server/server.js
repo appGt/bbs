@@ -16,7 +16,7 @@ app.use(session({
   maxAge: 10 * 60 * 1000,
   name: 'tid',
   resave: false,
-  saveUninitiaalized: false,
+  saveUninitialized: false,
   secret: 'ract cnode class'
 }))
 
