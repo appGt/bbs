@@ -10,7 +10,8 @@
     "clear": "rimraf dist",
     "build": "npm run clear && npm run build:client && npm run build:server",
     "lint": "eslint --ext .jsx --ext .js client/",
-    "precommit": "npm run lint"
+    "precommit": "npm run lint",
+    "start": "cross-env NODE_ENV=production node server/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -68,6 +69,7 @@
     "react": "^16.8.6",
     "react-async-bootstrapper": "^2.1.1",
     "react-dom": "^16.8.6",
+    "react-helmet": "^5.2.1",
     "react-hot-loader": "^4.8.7",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
