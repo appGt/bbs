@@ -3,14 +3,16 @@ const path = require('path')
 const webpack = require('webpack')
 const MemoryFs = require('memory-fs')
 const proxy = require('http-proxy-middleware')
-
+const asyncBootstrapper = require('react-async-bootstrapper')
+const serialize = require('serialize-javascript')
+const ejs = require('ejs')
 const ReactSSR = require('react-dom/server')
 
 const serverConfig = require('../../build/webpack.config.server')
 
 const getTemplate = () => {
   return new Promise((resolve, reject) => {
-    axios.get('http://localhost:8888/public/index.html')
+    axios.get('http://localhost:8888/public/server.ejs')
       .then(res => {
         resolve(res.data)
       })
@@ -23,9 +25,9 @@ const Module = module.constructor
 const mfs = new MemoryFs
 const serverCompiler = webpack(serverConfig)
 serverCompiler.outputFileSystem = mfs
-let serverBundle
+let serverBundle, createStoreMap
 serverCompiler.watch({}, (err, stats) => {
-  if(err) throw err
+  if (err) throw err
   stats = stats.toJson()
   //输出打包日志
   stats.errors.forEach(err => console.error(err))
@@ -42,8 +44,17 @@ serverCompiler.watch({}, (err, stats) => {
   const m = new Module()
   m._compile(bundle, 'server-entry.js')
   serverBundle = m.exports.default
+  createStoreMap = m.exports.createStoreMap
+  console.log('----------serverBundle 先执行', serverBundle)
+  console.log('----------createStoreMap 先执行', createStoreMap)
 })
 
+const getStoreState = (stores) => {
+  return Object.keys(stores).reduce((result, storeName) => {
+    result[storeName] = stores[storeName].toJson()
+    return result
+  }, {})
+}
 
 module.exports = function (app) {
   app.use('/public', proxy({
@@ -51,8 +62,28 @@ module.exports = function (app) {
   }))
   app.get('*', function (req, res) {
     getTemplate().then(template => {
-      const content = ReactSSR.renderToString(serverBundle)
-      res.send(template.replace('<!--app-->', content))
+      console.log('===============serverBundle is not empty', serverBundle)
+      console.log('===============createStoreMap is not empty', createStoreMap)
+
+      const routerContext = {}
+      const stores = createStoreMap()
+      const app = serverBundle(stores, routerContext, req.url)
+      asyncBootstrapper(app).then(() => {
+        if (routerContext.url) {
+          console.log(routerContext.url)
+          res.status(302).setHeader('Location', routerContext.url)
+          res.end()
+          return
+        }
+        const state = getStoreState(stores)
+        const content = ReactSSR.renderToString(app)
+        const html = ejs.render(template, {
+          appString: content,
+          initialState: serialize(state)
+        })
+
+        res.send(html)
+      })
     })
   })
 }

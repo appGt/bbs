@@ -4,17 +4,23 @@ import {
   inject,
 } from 'mobx-react'
 import PropTypes from 'prop-types'
-import { AppState } from '../../store/app-state'
+import AppState from '../../store/app-state'
 
 @inject('appState') @observer
 class TopicList extends React.Component {
-  componentWillMount() {
-
+  bootstrap = () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const { appState } = this.props
+        appState.count = 3
+        resolve(true)
+      }, 0)
+    })
   }
 
   changeName = (event) => {
     const { appState } = this.props
-    appState.name = event.target.value
+    appState.changeName(event.target.value)
   }
 
   render() {
