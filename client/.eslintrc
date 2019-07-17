@@ -15,6 +15,7 @@
     "react/jsx-filename-extension": 0,
     "arrow-body-style": 0,
     "import/no-unresolved": 0,
-    "react/require-default-props": 0
+    "react/require-default-props": 0,
+    "react/forbid-prop-types": 0
   }
 }
