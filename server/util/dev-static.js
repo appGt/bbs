@@ -48,10 +48,10 @@ module.exports = function (app) {
   app.use('/public', proxy({
     target: 'http://localhost:8888'
   }))
-  if(!serverBundle) {
-    return res.send('waiting  for complie, refresh later')
-  }
   app.get('*', function (req, res, next) {
+    if(!serverBundle) {
+      return res.send('waiting  for complie, refresh later')
+    }
     getTemplate().then(template => {
       serverRender(serverBundle, template, req, res)
     }).catch(next)

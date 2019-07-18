@@ -5,7 +5,6 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemText from '@material-ui/core/ListItemText'
 import Avatar from '@material-ui/core/Avatar'
-import TopicDetail from '../topic-detail';
 
 import { TopicPrimaryStyle, TopicSecondaryStyle } from './styles'
 
@@ -23,9 +22,9 @@ const StyledPrimary = withStyles(TopicPrimaryStyle)(Primary)
 const Secondary = ({ classes, topic }) => {
   return (
     <span className={classes.root}>
-      <span className={classes.userName}>{topic.username}</span>
+      <span className={classes.userName}>{topic.author.loginname}</span>
       <span className={classes.count}>
-        <span className={classes.accentColor}>{topic.replay_count}</span>
+        <span className={classes.accentColor}>{topic.reply_count}</span>
         <span>/</span>
         <span>{topic.visit_count}</span>
       </span>
@@ -51,7 +50,7 @@ Secondary.propTypes = {
 const TopicListItem = ({ onClick, topic }) => (
   <ListItem button onClick={onClick}>
     <ListItemAvatar>
-      <Avatar src={TopicDetail.image} />
+      <Avatar src={topic.author.avatar_url} />
     </ListItemAvatar>
     <ListItemText
       primary={<StyledPrimary topic={topic} />}

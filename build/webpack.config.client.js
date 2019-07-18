@@ -27,7 +27,7 @@ const config = webpackMerge(baseConfig, {
 })
 
 if (isDev) {
-  config.devtool = '#cheap-module-eval-source-map'
+  config.devtool = 'cheap-module-source-map'
   config.entry = {
     app: [
       'react-hot-loader/patch',

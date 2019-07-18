@@ -7,7 +7,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import { lightBlue, pink } from '@material-ui/core/colors'
 import App from './views/app';
-import AppState from './store/app-state'
+import { AppState, TopicStore } from './store/store'
 
 const initialState = window.__INITIAL__STATE__ || {} //eslint-disable-line
 const theme = createMuiTheme({
@@ -18,12 +18,15 @@ const theme = createMuiTheme({
   },
 })
 
+const appState = new AppState(initialState.appState)
+const topicStore = new TopicStore(initialState.appState)
+
 const root = document.getElementById('root');
 const render = (Component) => {
   const renderMethod = module.hot ? ReactDOM.render : ReactDOM.hydrate;
   renderMethod(
     <AppContainer>
-      <Provider appState={new AppState(initialState.appState)}>
+      <Provider appState={appState} topicStore={topicStore}>
         <BrowserRouter>
           <ThemeProvider theme={theme}>
             <Component />
