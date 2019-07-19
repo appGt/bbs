@@ -5,13 +5,20 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import ListItemText from '@material-ui/core/ListItemText'
 import Avatar from '@material-ui/core/Avatar'
+import cs from 'classnames'
+
+import { tabs } from '../../util/varible-define'
 
 import { TopicPrimaryStyle, TopicSecondaryStyle } from './styles'
 
 const Primary = ({ classes, topic }) => {
+  const classNames = cs({
+    [classes.tab]: true,
+    [classes.top]: topic.top,
+  })
   return (
     <div className={classes.root}>
-      <span className={classes.tab}>{topic.tab}</span>
+      <span className={classNames}>{topic.top ? '置顶' : tabs[topic.tab]}</span>
       <span className={classes.title}>{topic.title}</span>
     </div>
   )
