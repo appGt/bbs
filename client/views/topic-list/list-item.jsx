@@ -1,11 +1,14 @@
 import React from 'react'
 import { PropTypes } from 'prop-types';
 import { withStyles } from '@material-ui/styles'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-import ListItemText from '@material-ui/core/ListItemText'
-import Avatar from '@material-ui/core/Avatar'
+import {
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Avatar,
+} from '@material-ui/core'
 import cs from 'classnames'
+import dateFormat from 'dateformat'
 
 import { tabs } from '../../util/varible-define'
 
@@ -37,7 +40,7 @@ const Secondary = ({ classes, topic }) => {
       </span>
       <span>
         创建时间：
-        {topic.create_at}
+        {dateFormat(topic.create_at, 'yyyy-mm-dd')}
       </span>
     </span>
   )

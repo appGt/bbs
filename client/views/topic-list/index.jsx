@@ -26,10 +26,6 @@ import { tabs } from '../../util/varible-define'
   }
 }) @observer
 class TopicList extends React.Component {
-  static contextTypes = {
-    router: PropTypes.object,
-  }
-
   constructor() {
     super()
     this.changeTab = this.changeTab.bind(this)
@@ -63,8 +59,8 @@ class TopicList extends React.Component {
     return query.tab || 'all'
   }
 
-  listItemClick = () => {
-
+  listItemClick = (topic) => {
+    this.props.history.push(`/detail/${topic.id}`)
   }
 
   changeTab(e, value) {
@@ -98,7 +94,7 @@ class TopicList extends React.Component {
             topics.map(topic => (
               <TopicListItem
                 key={topic.id}
-                onClick={this.listItemClick}
+                onClick={() => { this.listItemClick(topic) }}
                 topic={topic}
               />
             ))
