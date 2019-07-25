@@ -66,6 +66,7 @@
     "ejs-compiled-loader": "^1.1.0",
     "express": "^4.16.4",
     "express-session": "^1.16.1",
+    "file-loader": "^4.1.0",
     "marked": "^0.7.0",
     "mobx": "^5.9.4",
     "mobx-react": "^5.4.4",

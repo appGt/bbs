@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core'
 
 import { withStyles } from '@material-ui/styles'
+import dateFormat from 'dateformat'
 
 import Container from '../layout/container'
 import Reply from './reply'
@@ -65,8 +66,8 @@ class TopicDetail extends React.Component {
 
         <Paper evevation={4} className={classes.replies}>
           <header className={classes.replyHeader}>
-            <span>{`${topic.replay_count} 回复`}</span>
-            <span>{`最新回复 ${topic.last_reply_at}`}</span>
+            <span>{`${topic.reply_count} 回复`}</span>
+            <span>{`最新回复 ${dateFormat(topic.last_reply_at, 'yyyy-MM-dd HH:mm:ss')}`}</span>
           </header>
           <section>
             {

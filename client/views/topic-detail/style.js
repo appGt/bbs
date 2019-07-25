@@ -90,5 +90,14 @@ export const replyStyle = {
       maxWidth: '100%',
       display: 'block',
     },
+    '& .name': {
+      color: '#666',
+      fontWeight: 'bold',
+      marginRight: '10px',
+    },
+    '& .time': {
+      color: '#999',
+      fontSize: '14px',
+    },
   },
 }

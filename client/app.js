@@ -12,8 +12,8 @@ import { AppState, TopicStore } from './store/store'
 const initialState = window.__INITIAL__STATE__ || {} //eslint-disable-line
 const theme = createMuiTheme({
   palette: {
-    primary: lightBlue,
-    accent: pink,
+    primary: pink,
+    accent: lightBlue,
     type: 'light',
   },
 })

@@ -1,12 +1,17 @@
 import React from 'react'
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import { withStyles } from '@material-ui/styles';
-import { PropTypes } from 'prop-types';
+import { PropTypes } from 'prop-types'
+import { withRouter } from 'react-router'
+import { inject, observer } from 'mobx-react'
+
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  IconButton,
+} from '@material-ui/core'
+import HomeIcon from '@material-ui/icons/Home'
+import { withStyles } from '@material-ui/styles'
 
 const styles = {
   root: {
@@ -17,9 +22,14 @@ const styles = {
   },
 }
 
+@inject((stores) => {
+  return {
+    appState: stores.appState,
+  }
+}) @observer
 class MainAppBar extends React.Component {
   onHomeIconClick = () => {
-
+    this.props.history.push('/index?tab=all')
   }
 
   onCreateButtonClick = () => {
@@ -27,17 +37,22 @@ class MainAppBar extends React.Component {
   }
 
   loginButtonClick = () => {
-
+    if (this.props.appState.user.isLogin) {
+      this.props.history.push('/user/info')
+    } else {
+      this.props.history.push('/user/login')
+    }
   }
 
   render() {
     const { classes } = this.props
+    const { user } = this.props.appState
     return (
       <div className={classes.root}>
         <AppBar position="fixed">
           <Toolbar>
             <IconButton onClick={this.onHomeIconClick}>
-              <MenuIcon />
+              <HomeIcon />
             </IconButton>
             <Typography type="title" color="inherit" className={classes.flex}>
               JNode
@@ -45,9 +60,11 @@ class MainAppBar extends React.Component {
             <Button variant="contained" color="primary" onClick={this.onCreateButtonClick}>
               新建话题
             </Button>
-            <Button variant="contained" color="primary" onClick={this.loginButtonClick}>
-              登录
-            </Button>
+            {
+              user.isLogin
+                ? user.info.loginname
+                : <Button variant="contained" color="primary" onClick={this.loginButtonClick}>登录</Button>
+            }
           </Toolbar>
         </AppBar>
       </div>
@@ -55,8 +72,13 @@ class MainAppBar extends React.Component {
   }
 }
 
-MainAppBar.propTypes = {
-  classes: PropTypes.object.isRequired,
+MainAppBar.wrappedComponent.propTypes = {
+  appState: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(MainAppBar)
+MainAppBar.propTypes = {
+  classes: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+}
+
+export default withRouter(withStyles(styles)(MainAppBar))

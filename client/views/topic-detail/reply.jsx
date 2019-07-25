@@ -14,7 +14,8 @@ const Reply = ({ reply, classes }) => {
         <Avatar src={reply.author.avatar_url} />
       </div>
       <div className={classes.right}>
-        <span>{`${reply.author.loginname}  ${dateFormat(reply.create_at, 'yyyy-mm-dd')}`}</span>
+        <span className="name">{`${reply.author.loginname}`}</span>
+        <span className="time">{`${dateFormat(reply.create_at, 'yyyy-mm-dd')}`}</span>
         <p dangerouslySetInnerHTML={{ __html: marked(reply.content) }} />
       </div>
     </div>
