@@ -1,11 +1,15 @@
 import {
   observable, action, extendObservable, computed,
 } from 'mobx'
-import { topicSchema } from '../util/varible-define'
-import { get } from '../util/http'
+import { topicSchema, replySchema } from '../util/varible-define'
+import { get, post } from '../util/http'
 
 const createTopic = (topic) => {
   return Object.assign({}, topicSchema, topic)
+}
+
+const createReply = (reply) => {
+  return Object.assign({}, replySchema, reply)
 }
 
 class Topic {
@@ -14,6 +18,28 @@ class Topic {
   }
 
   @observable syncing = false
+
+  @observable createReplies = []
+
+  @action doReply(content) {
+    return new Promise((resolve, reject) => {
+      post(`/topic/${this.id}/replies`, {
+        needAccessToken: true,
+      }, { content })
+        .then((resp) => {
+          if (resp.success) {
+            this.createReplies.push(createReply({
+              id: resp.reply_id,
+              content,
+              create_at: Date.now(),
+            }))
+            resolve()
+          } else {
+            reject(resp)
+          }
+        }).catch(reject)
+    })
+  }
 }
 
 class TopicStore {

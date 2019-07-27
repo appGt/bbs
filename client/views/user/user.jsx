@@ -47,6 +47,6 @@ User.wrappedComponent.propTypes = {
 
 User.propTypes = {
   classes: PropTypes.object.isRequired,
-  children: PropTypes.element.isRequired,
+  children: PropTypes.element,
 }
 export default withStyles(userStyles)(User)
