@@ -33,11 +33,7 @@ class MainAppBar extends React.Component {
   }
 
   onCreateButtonClick = () => {
-    if (this.props.appState.user.isLogin) {
-      this.props.history.push('/topic/create')
-    } else {
-      this.props.history.push('/user/login')
-    }
+    this.props.history.push('/topic/create')
   }
 
   loginButtonClick = () => {

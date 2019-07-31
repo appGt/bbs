@@ -1,7 +1,9 @@
 import React from 'react'
 import { withRouter } from 'react-router'
+import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { inject, observer } from 'mobx-react'
+import queryString from 'query-string'
 
 import { TextField, Button } from '@material-ui/core'
 import { withStyles } from '@material-ui/styles'
@@ -27,10 +29,10 @@ class UserLogin extends React.Component {
     this.handleLogin = this.handleLogin.bind(this)
   }
 
-  componentWillMount() {
-    if (this.props.appState.user.isLogin) {
-      this.props.history.push('/user/info')
-    }
+  getFrom(location) {
+    location = location || this.props.location
+    const query = queryString.parse(location.search)
+    return query.from || '/user/info'
   }
 
   handInput(event) {
@@ -50,8 +52,9 @@ class UserLogin extends React.Component {
     })
     return this.props.appState.login(this.state.accessToken)
       .then(() => {
-        this.props.history.push('/user/info')
-      }).catch((err) => {
+        this.props.history.push(this.getFrom())
+      })
+      .catch((err) => {
         console.log(err) // eslint-disable-line
       })
   }
@@ -59,6 +62,11 @@ class UserLogin extends React.Component {
   render() {
     const { helpText, accessToken } = this.state
     const { classes } = this.props
+    const from = this.getFrom()
+    const { isLogin } = this.props.user
+    if (isLogin) {
+      return <Redirect to={from} />
+    }
     return (
       <UserWrapper>
         <div className={classes.root}>
@@ -93,6 +101,7 @@ UserLogin.wrappedComponent.propTypes = {
 UserLogin.propTypes = {
   classes: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 }
 
 

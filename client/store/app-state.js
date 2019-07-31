@@ -26,8 +26,8 @@ export default class AppState {
         accessToken,
       }).then((resp) => {
         if (resp.success) {
-          this.user.isLogin = true
           this.user.info = resp.data
+          this.user.isLogin = true
           resolve()
         } else {
           reject(resp)

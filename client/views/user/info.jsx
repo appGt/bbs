@@ -45,12 +45,9 @@ TopicItem.propTypes = {
 }) @observer
 class UserInfo extends React.Component {
   componentWillMount() {
-    if (!this.props.appState.user.isLogin) {
-      this.props.history.push('/user/login')
-    } else {
-      this.props.appState.getUserDetail()
-      this.props.appState.getUserCollections()
-    }
+    console.log(JSON.stringify(this.props.appState.user)) //eslint-disable-line
+    this.props.appState.getUserDetail()
+    this.props.appState.getUserCollections()
   }
 
   goToTopic(id) {
